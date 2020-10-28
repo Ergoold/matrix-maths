@@ -16,6 +16,7 @@ program invert
   M(n + 1:, :) = identity(n)
 
   call echelon(M)
+  call reduce(M)
   print *, 'Inverted matrix:'
   call print_mat(M(n + 1:, :))
 end program invert
