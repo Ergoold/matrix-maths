@@ -29,12 +29,9 @@ module gauss
         if (non_zero_row /= m) then
           call swap_rows(A, non_zero_row, m)
         end if
-        if (A(n, m) /= 1) then
-          call mul_row(A, m, 1 / A(n, m))
-        end if
         do i = 1, size(A, 2)
           if (i /= m .and. A(n, i) /= 0) then
-            call add_row(A, i, m, -A(n, i))
+            call add_row(A, i, m, -A(n, i) / A(n, m))
           end if
         end do
       end if
