@@ -15,5 +15,5 @@ program determinant
   read (*, *) mat
 
   call echelon(mat, det_sign)
-  print *, 'Determinant:', det_sign
+  print *, 'Determinant:', det_sign * tri_det(mat)
 end program determinant

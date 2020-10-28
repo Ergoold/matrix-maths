@@ -21,6 +21,18 @@ module mats
     end do
   end function identity
 
+  ! only call with triangular matrices
+  function tri_det(M) result(det)
+    real, intent(in) :: M(:, :)
+    real :: det
+
+    integer :: i
+    det = 1
+    do i = 1, size(M, 1)
+      det = det * M(i, i)
+    end do
+  end function tri_det
+
   subroutine print_mat(M)
     real, intent(in) :: M(:, :)
 
