@@ -2,9 +2,24 @@ module gauss
   implicit none
 
   private
-  public echelon
+  public echelon, reduce
 
   contains
+
+  ! only call this after calling echelon
+  subroutine reduce(M)
+    real, intent(inout) :: M(:, :)
+
+    integer :: i
+    real :: mii
+
+    do i = 1, max(size(M, 1), size(M, 2))
+      mii = M(i, i)
+      if (mii /= 1 .and. mii /= 0) then
+        call mul_row(M, i, 1 / mii)
+      end if
+    end do
+  end subroutine reduce
 
   subroutine echelon(M)
     real, intent(inout) :: M(:, :)

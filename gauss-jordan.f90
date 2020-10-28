@@ -1,4 +1,4 @@
-program reduce
+program gauss_jordan
   use gauss
   use mats
   implicit none
@@ -14,5 +14,6 @@ program reduce
 
   print *, 'Reduced matrix:'
   call echelon(mat)
+  call reduce(mat)
   call print_mat(mat)
-end program reduce
+end program gauss_jordan

@@ -1,10 +1,10 @@
-all: invert reduce
+all: invert gauss-jordan
 
 objs = gauss.o mats.o
 mods = gauss.mod mats.mod
 
-reduce: reduce.f90 $(objs)
-	gfortran -o reduce reduce.f90 $(objs)
+gauss-jordan: gauss-jordan.f90 $(objs)
+	gfortran -o gauss-jordan gauss-jordan.f90 $(objs)
 
 invert: invert.f90 $(objs)
 	gfortran -o invert invert.f90 $(objs)
@@ -16,4 +16,4 @@ mats.o: mats.f90
 	gfortran -c mats.f90
 
 clean:
-	rm reduce invert $(objs) $(mods)
+	rm gauss-jordan invert $(objs) $(mods)
