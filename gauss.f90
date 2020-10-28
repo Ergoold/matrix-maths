@@ -11,13 +11,13 @@ module gauss
 
   contains
 
-  ! only call this after calling echelon
   subroutine reduce(M)
     real, intent(inout) :: M(:, :)
 
     integer :: i
     real :: mii
 
+    call echelon_dummy(M)
     do i = 1, max(size(M, 1), size(M, 2))
       mii = M(i, i)
       if (mii /= 1 .and. mii /= 0) then
