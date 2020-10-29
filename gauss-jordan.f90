@@ -13,7 +13,6 @@ program gauss_jordan
   read (*, *) mat
 
   print *, 'Reduced matrix:'
-  call echelon(mat)
   call reduce(mat)
   call print_mat(mat)
 end program gauss_jordan

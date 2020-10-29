@@ -4,15 +4,20 @@ module gauss
   private
   public echelon, reduce
 
+  interface echelon
+    module procedure echelon_dummy
+    module procedure echelon_det_sign
+  end interface echelon
+
   contains
 
-  ! only call this after calling echelon
   subroutine reduce(M)
     real, intent(inout) :: M(:, :)
 
     integer :: i
     real :: mii
 
+    call echelon_dummy(M)
     do i = 1, max(size(M, 1), size(M, 2))
       mii = M(i, i)
       if (mii /= 1 .and. mii /= 0) then
@@ -21,14 +26,23 @@ module gauss
     end do
   end subroutine reduce
 
-  subroutine echelon(M)
+  subroutine echelon_dummy(M)
     real, intent(inout) :: M(:, :)
-    call echelon_sub(M, 1, 1)
-  end subroutine echelon
+    integer :: dummy
+    call echelon_sub(M, 1, 1, dummy)
+  end subroutine echelon_dummy
 
-  recursive subroutine echelon_sub(A, n, m)
+  subroutine echelon_det_sign(M, det_sign)
+    real, intent(inout) :: M(:, :)
+    integer, intent(inout) :: det_sign
+    det_sign = 1
+    call echelon_sub(M, 1, 1, det_sign)
+  end subroutine
+
+  recursive subroutine echelon_sub(A, n, m, det_sign)
     real, intent(inout) :: A(:, :)
     integer, intent(in) :: n, m
+    integer, intent(inout) :: det_sign
 
     integer :: i
     integer :: non_zero_row
@@ -43,6 +57,7 @@ module gauss
       if (non_zero_row /= 0) then
         if (non_zero_row /= m) then
           call swap_rows(A, non_zero_row, m)
+          det_sign = det_sign * (-1)
         end if
         do i = 1, size(A, 2)
           if (i /= m .and. A(n, i) /= 0) then
@@ -50,7 +65,7 @@ module gauss
           end if
         end do
       end if
-      call echelon_sub(A, n + 1, m + 1)
+      call echelon_sub(A, n + 1, m + 1, det_sign)
     end if
   end subroutine echelon_sub
 

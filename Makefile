@@ -1,7 +1,10 @@
-all: invert gauss-jordan
+all: invert gauss-jordan determinant
 
 objs = gauss.o mats.o
 mods = gauss.mod mats.mod
+
+determinant: determinant.f90 $(objs)
+	gfortran -o determinant determinant.f90 $(objs)
 
 gauss-jordan: gauss-jordan.f90 $(objs)
 	gfortran -o gauss-jordan gauss-jordan.f90 $(objs)
@@ -16,4 +19,4 @@ mats.o: mats.f90
 	gfortran -c mats.f90
 
 clean:
-	rm gauss-jordan invert $(objs) $(mods)
+	rm determinant gauss-jordan invert $(objs) $(mods)
