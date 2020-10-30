@@ -4,11 +4,6 @@ module gauss
   private
   public echelon, reduce
 
-  interface echelon
-    module procedure echelon_dummy
-    module procedure echelon_det_sign
-  end interface echelon
-
   contains
 
   subroutine reduce(M)
@@ -17,7 +12,8 @@ module gauss
     integer :: i
     real :: mii
 
-    call echelon_dummy(M)
+    call echelon(M, i)
+    ! we are resetting i immediately
     do i = 1, max(size(M, 1), size(M, 2))
       mii = M(i, i)
       if (mii /= 1 .and. mii /= 0) then
@@ -26,13 +22,7 @@ module gauss
     end do
   end subroutine reduce
 
-  subroutine echelon_dummy(M)
-    real, intent(inout) :: M(:, :)
-    integer :: dummy
-    call echelon_sub(M, 1, 1, dummy)
-  end subroutine echelon_dummy
-
-  subroutine echelon_det_sign(M, det_sign)
+  subroutine echelon(M, det_sign)
     real, intent(inout) :: M(:, :)
     integer, intent(inout) :: det_sign
     det_sign = 1
